@@ -32,18 +32,24 @@
         <a-entity camera></a-entity>
     </a-scene>
 
-    <img id="soundImage" src="./sound.png" alt="Toggle Sound">
+    <img id="soundImage" src="./no-sound.png" alt="Toggle Sound">
 
     <script>
+        const marker = document.querySelector('a-marker');
+        const video = document.getElementById('video1');
+
         // Function to handle marker found event
-        document.querySelector('a-marker').addEventListener('markerFound', function(){
-            let video = document.getElementById('video1');
+        marker.addEventListener('markerFound', function() {
             video.play();
+        });
+
+        // Function to handle marker lost event
+        marker.addEventListener('markerLost', function() {
+            video.pause();
         });
 
         // Function to toggle sound and change image
         document.getElementById("soundImage").addEventListener("click", function() {
-            let video = document.getElementById('video1');
             video.muted = !video.muted;
             this.src = video.muted ? "./no-sound.png" : "./sound.png";
         });
