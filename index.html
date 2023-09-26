@@ -5,24 +5,47 @@
     <title>AR Video with A-Frame and Custom Marker</title>
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <style>
+        #soundImage {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs="debugUIEnabled: false; sourceType: webcam; trackingMethod: best;">
         <a-assets>
-            <video id="video1" autoplay  loop  playsinline src="./video/test.mp4"></video>
+            <video id="video1" autoplay loop muted playsinline src="./video/test.mp4"></video>
+            <img id="muteImage" src="./no-sound.png">
+            <img id="unmuteImage" src="./sound.png">
         </a-assets>
 
         <a-marker type='pattern' url='./test2.patt'>
-            <a-video src="#video1" autoplay width="1" height="1" position="0 0 0" rotation="-90 0 0"></a-video>
+            <a-video src="#video1" autoplay width="1" height="1" rotation="-90 0 0"></a-video>
         </a-marker>
 
         <a-entity camera></a-entity>
     </a-scene>
 
+    <img id="soundImage" src="./sound.png" alt="Toggle Sound">
+
     <script>
+        // Function to handle marker found event
         document.querySelector('a-marker').addEventListener('markerFound', function(){
             let video = document.getElementById('video1');
             video.play();
+        });
+
+        // Function to toggle sound and change image
+        document.getElementById("soundImage").addEventListener("click", function() {
+            let video = document.getElementById('video1');
+            video.muted = !video.muted;
+            this.src = video.muted ? "./no-sound.png" : "./sound.png";
         });
     </script>
 </body>
