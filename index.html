@@ -9,14 +9,21 @@
 <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs="debugUIEnabled: false; sourceType: webcam; trackingMethod: best;">
         <a-assets>
-            <video id="video1" muted autoplay loop="true" src="./video/test.mp4"></video>
+            <video id="video1" autoplay loop muted playsinline src="./video/test.mp4"></video>
         </a-assets>
 
         <a-marker type='pattern' url='./test2.patt'>
-            <a-video src="#video1"  width="1" height="1" rotation="-90 0 0"></a-video>
+            <a-video src="#video1" autoplay width="1" height="1" rotation="-90 0 0"></a-video>
         </a-marker>
 
         <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+        document.querySelector('a-marker').addEventListener('markerFound', function(){
+            let video = document.getElementById('video1');
+            video.play();
+        });
+    </script>
 </body>
 </html>
